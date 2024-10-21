@@ -1,0 +1,55 @@
+juego y app de autoayuda:
+
+- estilo tamagochi/mascota virtual
+- podes cuidarlo y el gatito en agradecimiento mientras mas dias pases con el, te dara regalos que funcionan como logros de tu avance
+- te va a insentivar a escribir en un diario y este mismo puede tener una contraseña
+- podes anotar recordatorios en la agenda y tareas para que el michi te lo recuerde en la app o en un widget
+- opcion activable: calendario menstrual
+- personalizar tema de app y el diario
+- datos curiosos de michis
+- widget sobre stats de michi
+
+
+1- inicio sesion
+2- creacion de usuario
+3- tutorial
+4- principal
+5- ajustes
+6- pagina en solitario para el theme
+7- pestaña de logros
+8- diario
+9- perfil
+10- recordatorios
+11- notificaciones
+12- pantalla de carga con los datos de michis, el michi tambien puede tirar factos
+13- calendario
+14- ropa para el michi
+
+fotos de gatos
+
+https://github.com/isgb/api-rest-fotos-gatos
+https://thecatapi.com/
+
+API
+
+https://ciberninjas.com/apis-gratuitas/
+https://devcenter.heroku.com/articles/logging#view-logs
+https://huachitos.cl/
+
+1.calendario
+A- https://cal.com/es
+B- https://www.nylas.com/products/calendar-api/
+C- https://www.addevent.com/c/documentation/calendar-events-api
+
+2.datos de michisss
+A- https://github.com/alexwohlbruck/cat-facts
+B-Poner info de gatos
+ 
+3.diario? (bloc de notas)
+A- https://learn.microsoft.com/es-es/graph/api/onenote-post-notebooks?view=graph-rest-1.0&tabs=http 
+ https://learn.microsoft.com/es-es/graph/api/notebook-get?view=graph-rest-1.0&tabs=http 
+B- https://www.youtube.com/watch?v=yBCyQmLuCuE
+C- https://www.youtube.com/watch?v=5XeZg-6h-NI
+
+4.calendario menstrual
+A-https://www.lakotex.com.ar/es-ar/calendario-menstrual-y-ovulacion# (ver...)

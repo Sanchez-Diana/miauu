@@ -2,19 +2,33 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 
-const ConfiguracionScreen = () => {
+const PerfilScreen= () => {
     return (
-        <View>
-            <Text  >¡HOLAA IGNACIO!</Text>
+        <View style={styles.container}>
+            <Text>Perfil del usuario</Text>
         </View>
     );
 };
 
-export default ConfiguracionScreen; 
+export default PerfilScreen; 
+
+const styles = StyleSheet.create({
+
+    container: {
+    
+    flex: 1,
+    backgroundColor: '#CCBBFF',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+});
+
 
 //style={styles.text}
 
 // const styles = StyleSheet.create({
+
 //     container: 
 //       flex: 1,
 //       backgroundColor: 'white',
