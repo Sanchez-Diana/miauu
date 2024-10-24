@@ -1,0 +1,19 @@
+{
+    "michis":[
+        {
+            "id": 1,
+            "nombre": "Maxwell",
+            "img":"../img/max-pin.gif"
+        },
+        {
+            "id": 2,
+            "nombre": "Pana Miguel",
+            "img":"../img/max-pin.gif"
+        },
+        {
+            "id": 3,
+            "nombre": "Pop Cat",
+            "img":"../img/max-pin.gif"
+        }
+    ]
+}

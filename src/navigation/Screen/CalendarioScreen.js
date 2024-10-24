@@ -8,6 +8,7 @@ const CalendarioScreen = () => {
     const [event, setEvent] = useState('');
     const [events, setEvents] = useState({});
     const [markedDates, setMarkedDates] = useState({});
+    const [editIndex, setEditIndex] = useState(null); 
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -58,14 +59,18 @@ const CalendarioScreen = () => {
         setSelectedDate(dateString);
         setMarkedDates(updatedMarkedDates);
         setEvent('');
+        setEditIndex(null); 
     };
 
-    const addEvent = () => {
+    const addOrEditEvent = () => {
         if (event && selectedDate) {
-            const updatedEvents = {
-                ...events,
-                [selectedDate]: [...(events[selectedDate] || []), event],
-            };
+            const updatedEvents = { ...events };
+            if (editIndex !== null) {
+                updatedEvents[selectedDate][editIndex] = event;
+                setEditIndex(null); 
+            } else {
+                updatedEvents[selectedDate] = [...(updatedEvents[selectedDate] || []), event];
+            }
 
             const updatedMarkedDates = {
                 ...markedDates,
@@ -106,6 +111,11 @@ const CalendarioScreen = () => {
 
         setEvents(updatedEvents);
         setMarkedDates(updatedMarkedDates);
+    };
+
+    const editEvent = (index) => {
+        setEvent(events[selectedDate][index]); 
+        setEditIndex(index); 
     };
 
     const filterMarkedDates = () => {
@@ -153,16 +163,21 @@ const CalendarioScreen = () => {
                         value={event}
                         onChangeText={setEvent}
                     />
-                    <TouchableOpacity style={styles.addButton} onPress={addEvent}>
-                        <Text style={styles.addButtonText}>Agregar Evento</Text>
+                    <TouchableOpacity style={styles.addButton} onPress={addOrEditEvent}>
+                        <Text style={styles.addButtonText}>{editIndex !== null ? "Guardar Cambios" : "Agregar Evento"}</Text>
                     </TouchableOpacity>
                     <Text style={styles.eventListTitle}>Eventos:</Text>
                     {events[selectedDate] && events[selectedDate].map((evt, index) => (
                         <View key={index} style={styles.eventItem}>
                             <Text style={styles.event}>{evt}</Text>
-                            <TouchableOpacity onPress={() => removeEvent(evt)} style={styles.removeButton}>
-                                <Text style={styles.removeButtonText}>Eliminar</Text>
-                            </TouchableOpacity>
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity onPress={() => editEvent(index)} style={styles.editButton}>
+                                    <Text style={styles.editButtonText}>Editar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => removeEvent(evt)} style={styles.removeButton}>
+                                    <Text style={styles.removeButtonText}>Eliminar</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     ))}
                     {(!events[selectedDate] || events[selectedDate].length === 0) && (
@@ -243,6 +258,19 @@ const styles = StyleSheet.create({
     },
     removeButtonText: {
         color: 'white',
+    },
+    editButton: {
+        backgroundColor: '#A77BCA',
+        padding: 5,
+        borderRadius: 5,
+        marginRight: 10,
+    },
+    editButtonText: {
+        color: 'white',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     noEventsText: {
         marginTop: 10,

@@ -5,8 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const DiarioScreen = () => {
     const [note, setNote] = useState('');
     const [notes, setNotes] = useState([]);
+    const [editIndex, setEditIndex] = useState(null); // Estado para el índice de la nota en edición
 
-    
     const loadNotes = async () => {
         try {
             const storedNotes = await AsyncStorage.getItem('notes');
@@ -17,7 +17,6 @@ const DiarioScreen = () => {
             console.error('Error al cargar las notas', error);
         }
     };
-
 
     const saveNotes = async (newNotes) => {
         try {
@@ -35,10 +34,19 @@ const DiarioScreen = () => {
         saveNotes(notes);
     }, [notes]);
 
-    const addNote = () => {
+    const addOrEditNote = () => {
         if (note.trim()) {
-            const updatedNotes = [...notes, note];
-            setNotes(updatedNotes);
+            if (editIndex !== null) {
+                // Actualiza la nota en el índice especificado
+                const updatedNotes = [...notes];
+                updatedNotes[editIndex] = note;
+                setNotes(updatedNotes);
+                setEditIndex(null); // Reiniciamos el índice
+            } else {
+                // Agrega una nueva nota
+                const updatedNotes = [...notes, note];
+                setNotes(updatedNotes);
+            }
             setNote('');
         }
     };
@@ -48,39 +56,50 @@ const DiarioScreen = () => {
         setNotes(newNotes);
     };
 
+    const startEditNote = (index) => {
+        setNote(notes[index]);
+        setEditIndex(index);
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.cajaaa}>
-            <Text>Notasss</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Escribe una nota..."
-                value={note}
-                onChangeText={setNote}
-            />
-            <Button title="Agregar Nota" onPress={addNote} />
+                <Text>Notasss</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Escribe una nota..."
+                    value={note}
+                    onChangeText={setNote}
+                />
+                <Button 
+                    title={editIndex !== null ? "Guardar" : "Agregar Nota"} 
+                    onPress={addOrEditNote} 
+                />
             </View>
             <View>
-            <FlatList
-                data={notes}
-                renderItem={({ item, index }) => (
-                    <View style={styles.note}>
-                        <Text>{item}</Text>
-                        <TouchableOpacity onPress={() => deleteNote(index)}>
-                            <Text style={styles.delete}>Eliminar</Text> 
-                        </TouchableOpacity>
-                    </View>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-            />
+                <FlatList
+                    data={notes}
+                    renderItem={({ item, index }) => (
+                        <View style={styles.note}>
+                            <Text style={styles.noteText}>{item}</Text>
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity onPress={() => startEditNote(index)}>
+                                    <Text style={styles.edit}>Editar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => deleteNote(index)}>
+                                    <Text style={styles.delete}>Eliminar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                />
             </View>
         </View>
     );
 };
 
 export default DiarioScreen;
-
-//arreglar boton de
 
 const styles = StyleSheet.create({
     container: {
@@ -104,17 +123,27 @@ const styles = StyleSheet.create({
         margin: 20,
         paddingHorizontal: 10,
         width: '90%',
-        height: '90',
+        height: 40,
     },
     note: {
-        padding: 50,
+        padding: 20,
         borderBottomWidth: 1,
         width: '100%',
-        height: '100%',
+        flexDirection: 'row', // Para alinear los elementos en fila
+        justifyContent: 'space-between', // Espacio entre los elementos
+        alignItems: 'center', // Centrar verticalmente
+    },
+    noteText: {
+        flex: 1, // Para que el texto ocupe el espacio disponible
     },
     delete: {
-        position: 'absolute',
-        right: 10,
         color: 'red',
+        marginLeft: 10, // Espaciado entre botones
+    },
+    edit: {
+        color: 'blue',
+    },
+    buttonContainer: {
+        flexDirection: 'row', // Alinear botones en fila
     },
 });
