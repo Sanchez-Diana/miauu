@@ -70,7 +70,7 @@ const TemaScreen = () => {
             <View style={styles.cajaf}>
 
                     <View style={styles.cajatitulof}>
-                    <Text style={styles.titulof}>Selecciona un fondo</Text>
+                    <Text style={styles.titulof}>Selecciona un fondo!</Text>
                     </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
