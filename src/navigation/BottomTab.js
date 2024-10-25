@@ -31,11 +31,10 @@ export const BottomTab = () => {
                     case 'Temas':
                         iconName = focused ? 'color-palette' : 'color-palette-outline';
                         break;
-                    case 'Perfil':
-                        iconName = focused ? 'person' : 'person-outline'; 
-                        break;
-                    default:
-                        
+                        case 'Creditos':
+                            iconName = focused ? 'person' : 'person-outline';
+                            break;
+                         default: 
                         iconName = 'help-outline'; 
                 }
 
@@ -61,25 +60,9 @@ export const BottomTab = () => {
             <Tab.Screen name='Diario' component={DiarioScreen} options={{ headerShown: false }}/>
             <Tab.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
             <Tab.Screen name='Calendario' component={CalendarioScreen} options={{ headerShown: false }}/>
-            <Tab.Screen name='Perfil' component={PerfilScreen} options={{ headerShown: false }}/>
+            <Tab.Screen name='Creditos' component={PerfilScreen} options={{ headerShown: false }}/>
 
         </Tab.Navigator>
     );
 }
 
-// otra forma de poner los inconos al menu
-
-            //if (route.name === 'Home') {
-            //         iconName = 'home-outline';
-            //     } else if (route.name === 'Diario') {
-            //         iconName = 'book-outline';
-            //     } else if (route.name === 'Calendario') {
-            //         iconName = 'calendar-outline';
-            //     } else if (route.name === 'Temas') {
-            //         iconName = 'color-palette-outline';
-            //     } else if (route.name === 'Perfil') {
-            //         iconName = 'person-outline'; 
-            //     }
-
-            //     return <Icon name={iconName} size={size} color={color} />;
-            // },
