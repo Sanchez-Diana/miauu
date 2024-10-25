@@ -49,7 +49,7 @@ export const BottomTab = () => {
                 );
             },
             tabBarStyle: { 
-                backgroundColor: '#7E87C0',
+                backgroundColor: '#A77BCA',
                 height: 60, 
                 paddingBottom: 3, 
                 borderTopColor: 'transparent',

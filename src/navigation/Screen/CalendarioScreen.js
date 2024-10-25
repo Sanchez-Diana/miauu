@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -140,7 +140,10 @@ const CalendarioScreen = () => {
 
     return (
         <View style={styles.container}>
+            <View style={styles.cajatitulo}>
             <Text style={styles.title}>Calendario</Text>
+            </View>
+        <ScrollView vertical={true} style={{margin:20, width:'100%',}}>
             <Calendar
                 onDayPress={onDayPress}
                 markedDates={markedDates}
@@ -166,6 +169,7 @@ const CalendarioScreen = () => {
                     <TouchableOpacity style={styles.addButton} onPress={addOrEditEvent}>
                         <Text style={styles.addButtonText}>{editIndex !== null ? "Guardar Cambios" : "Agregar Evento"}</Text>
                     </TouchableOpacity>
+                    <View style={{justifyContent: 'center',alignItems: 'center',}}> 
                     <Text style={styles.eventListTitle}>Eventos:</Text>
                     {events[selectedDate] && events[selectedDate].map((evt, index) => (
                         <View key={index} style={styles.eventItem}>
@@ -178,13 +182,17 @@ const CalendarioScreen = () => {
                                     <Text style={styles.removeButtonText}>Eliminar</Text>
                                 </TouchableOpacity>
                             </View>
-                        </View>
+                        </View>    
+                    
+                    
                     ))}
+                    </View>
                     {(!events[selectedDate] || events[selectedDate].length === 0) && (
                         <Text style={styles.noEventsText}>No hay eventos para esta fecha.</Text>
                     )}
                 </View>
             ) : null}
+        </ScrollView>    
         </View>
     );
 };
@@ -194,15 +202,22 @@ export default CalendarioScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#E5E0F0',
+        backgroundColor: '#CCBBFF',
         alignItems: 'center',
+        justifyContent: 'center',
         padding: 20,
     },
     title: {
         fontSize: 28,
         fontWeight: 'bold',
         color: '#3E2B6D',
-        marginBottom: 20,
+    },
+    cajatitulo:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '5%',
+        width: '100%',
+        marginTop: '5%',
     },
     selectedDate: {
         marginTop: 20,
@@ -212,17 +227,19 @@ const styles = StyleSheet.create({
     eventContainer: {
         alignItems: 'center',
         marginTop: 20,
-        width: '100%',
+       
+    
     },
     input: {
         height: 40,
         borderColor: '#A27BCA',
         borderWidth: 1,
         borderRadius: 5,
-        width: '80%',
-        marginBottom: 10,
+        marginBottom: '3%',
         paddingHorizontal: 10,
         backgroundColor: '#fff',
+        width: '50%',
+        marginTop: '3%'
     },
     addButton: {
         backgroundColor: '#A77BCA',
@@ -241,11 +258,12 @@ const styles = StyleSheet.create({
         color: '#3E2B6D',
     },
     eventItem: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         width: '80%',
         alignItems: 'center',
-        marginVertical: 5,
+        marginVertical: 10,
+        
     },
     event: {
         fontSize: 16,
@@ -254,6 +272,7 @@ const styles = StyleSheet.create({
     removeButton: {
         backgroundColor: '#A77BCA',
         padding: 5,
+        marginTop: 10,
         borderRadius: 5,
     },
     removeButtonText: {
@@ -262,6 +281,7 @@ const styles = StyleSheet.create({
     editButton: {
         backgroundColor: '#A77BCA',
         padding: 5,
+        marginTop: 10,
         borderRadius: 5,
         marginRight: 10,
     },

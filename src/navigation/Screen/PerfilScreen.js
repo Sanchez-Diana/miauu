@@ -1,12 +1,39 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Image } from 'react-native';
 
 
 const PerfilScreen= () => {
     return (
-        <View style={styles.container}>
-            <Text>Perfil del usuario</Text>
-        </View>
+  <View style={styles.container}>
+
+    <View style={{ flexDirection: 'row',
+               alignItems: 'center', 
+               marginTop: 15,
+               borderBottomWidth: 1,
+               borderBottomColor: 'gray',
+               paddingBottom: 10 
+            }}>
+        <Image
+          source={require('./img/gg.jpg')}
+          style={{
+            width: 120,
+            height: 120,
+            borderRadius: 100,
+          }}
+          resizeMode="contain"
+        />
+        <Text style={{ 
+          marginLeft: 15 
+          }}>
+            Perfil del usuario
+        </Text>
+    </View>
+               {/*<View style={styles.caja}>
+                
+                <Btn texto="Enviar" presionado={() => navigation.navigate("InicioSesion")}></Btn>
+              </View>*/}
+  </View>
+  
     );
 };
 

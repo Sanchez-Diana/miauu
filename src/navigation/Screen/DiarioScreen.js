@@ -1,26 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, TextInput, Button, FlatList, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState  } from 'react';
+import { StyleSheet, View, TextInput, Button, FlatList, Text, TouchableOpacity, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const DiarioScreen = () => {
     const [note, setNote] = useState('');
     const [notes, setNotes] = useState([]);
-    const [editIndex, setEditIndex] = useState(null); // Estado para el índice de la nota en edición
+    const [editIndex, setEditIndex] = useState(null); 
 
     const loadNotes = async () => {
         try {
             const storedNotes = await AsyncStorage.getItem('notes');
             if (storedNotes) {
-                setNotes(JSON.parse(storedNotes));
+               
+                const parsedNotes = JSON.parse(storedNotes);
+                const sortedNotes = parsedNotes.reverse();
+                setNotes(sortedNotes);
             }
-        } catch (error) {
+        }  catch (error) {
             console.error('Error al cargar las notas', error);
         }
     };
 
     const saveNotes = async (newNotes) => {
         try {
-            await AsyncStorage.setItem('notes', JSON.stringify(newNotes));
+
+            const sortedNotes = newNotes.reverse();
+            await AsyncStorage.setItem('notes', JSON.stringify(sortedNotes));
         } catch (error) {
             console.error('Error al guardar las notas', error);
         }
@@ -37,13 +43,11 @@ const DiarioScreen = () => {
     const addOrEditNote = () => {
         if (note.trim()) {
             if (editIndex !== null) {
-                // Actualiza la nota en el índice especificado
                 const updatedNotes = [...notes];
                 updatedNotes[editIndex] = note;
                 setNotes(updatedNotes);
-                setEditIndex(null); // Reiniciamos el índice
+                setEditIndex(null); 
             } else {
-                // Agrega una nueva nota
                 const updatedNotes = [...notes, note];
                 setNotes(updatedNotes);
             }
@@ -64,36 +68,43 @@ const DiarioScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.cajaaa}>
-                <Text>Notasss</Text>
+                <Text style={styles.titulo}>Diario</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Escribe una nota..."
                     value={note}
                     onChangeText={setNote}
                 />
+                <View
+                    style={styles.boton}>
                 <Button 
                     title={editIndex !== null ? "Guardar" : "Agregar Nota"} 
                     onPress={addOrEditNote} 
                 />
+                </View>
             </View>
-            <View>
-                <FlatList
-                    data={notes}
-                    renderItem={({ item, index }) => (
-                        <View style={styles.note}>
-                            <Text style={styles.noteText}>{item}</Text>
-                            <View style={styles.buttonContainer}>
-                                <TouchableOpacity onPress={() => startEditNote(index)}>
-                                    <Text style={styles.edit}>Editar</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => deleteNote(index)}>
-                                    <Text style={styles.delete}>Eliminar</Text>
-                                </TouchableOpacity>
+            <View >
+                <View style={styles.cajaN}>
+                    <FlatList
+                        data={notes}
+                        renderItem={({ item, index }) => (
+                            <View style={styles.note}>
+                                <Text style={styles.noteText}>{item}</Text>
+                                <View style={styles.buttonContainer}>
+                                    <TouchableOpacity onPress={() => startEditNote(index)}>
+                                        <Text style={styles.edit}>
+                                            <Icon name="pencil-outline" size={30} color="#AA64FF" />
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => deleteNote(index)}>
+                                        <Text style={styles.delete}><Icon name="trash" size={30} color="#FF64EF" /></Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                />
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
+                    </View>
             </View>
         </View>
     );
@@ -110,40 +121,84 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     cajaaa: {
-        backgroundColor: '#A5A6D0',
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
         height: '40%',
         width: '100%',
+        border: 'black',
+        borderRadius: 30,
+        shadowColor: '#000',
+      shadowOffset: {
+        width: 40,
+        height: 50,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 20,
+      elevation: 4,
+      marginTop: '8%',
+      overflow: 'scroll'
+    },
+    cajaN:{
+        padding: '3%',
+        height: '79%',
+        maxHeight: '70%',
+        backgroundColor: '#EBE5FF',
+        border: 'black',
+        borderRadius: 30,
+        shadowColor: '#000',
+      shadowOffset: {
+        width: 40,
+        height: 50,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 20,
+      elevation: 4,
+      marginTop: '8%',
     },
     input: {
-        borderColor: 'gray',
         borderWidth: 1,
         marginBottom: 10,
-        margin: 20,
         paddingHorizontal: 10,
-        width: '90%',
-        height: 40,
+        borderColor: 'grey',
+        padding: 10,
+        width: '80%',
+        marginTop: 20,
+        borderRadius:30,
+        height: 50,
+        paddingStart: 15
     },
     note: {
         padding: 20,
         borderBottomWidth: 1,
         width: '100%',
-        flexDirection: 'row', // Para alinear los elementos en fila
-        justifyContent: 'space-between', // Espacio entre los elementos
-        alignItems: 'center', // Centrar verticalmente
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
     },
     noteText: {
-        flex: 1, // Para que el texto ocupe el espacio disponible
+        flex: 1, 
     },
     delete: {
         color: 'red',
-        marginLeft: 10, // Espaciado entre botones
+        marginLeft: 10, 
     },
     edit: {
         color: 'blue',
     },
     buttonContainer: {
-        flexDirection: 'row', // Alinear botones en fila
+        flexDirection: 'row', 
     },
+    titulo:{
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#3E2B6D',
+    },
+    boton:{
+        backgroundColor: '#A77BCA',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 20,
+        marginTop: '3%'
+    }
 });
